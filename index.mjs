@@ -18,7 +18,7 @@ function Tree(array) {
     
     const buildTree = (array, start = 0, end = array.length - 1) => {
 
-        let mid = Math.floor((start + end) / 2);
+        let mid = Math.ceil((start + end) / 2);
     
         if (start > end) {
             return null;
@@ -45,24 +45,40 @@ function Tree(array) {
         }
     }
 
+    
     const insert = (value) => {
-        let currentNode = root;
 
-        while (currentNode.left != null || currentNode.right != null) {
-            if (value < currentNode.data) {
-                currentNode = currentNode.left;
-            } else {
-                currentNode = currentNode.right;
-            }
+        if (currentNode.left == null || currentNode.right == null) {
+            currentNode = Node(value);
+            return currentNode
         }
 
         if (value < currentNode.data) {
-            currentNode.left = Node(value);
+            currentNode = currentNode.left;
+            insert(value)
         } else {
-            currentNode.right = Node(value);
-        }
-        
+            currentNode = currentNode.right;
+            insert(value)
+        } 
 
+        // while (currentNode.left != null || currentNode.right != null) {
+        //     if(currentNode.right === null){
+        //         break;
+        //     }
+
+        //     if (value < currentNode.data) {
+        //         currentNode = currentNode.left;
+        //     } else {
+        //         currentNode = currentNode.right;
+        //     }
+        // }
+
+        // if (value < currentNode.data) {
+        //     currentNode.left = Node(value);
+        // } else {
+        //     currentNode.right = Node(value);
+        // }
+        
         prettyPrint(root);
 
     }
@@ -73,7 +89,7 @@ function Tree(array) {
     Once the leaf node is reached, insert X to its right or left based on the relation between X and the leaf node’s value. */
     
     let root = buildTree(sortedArray);
-
+    let currentNode = root;
     prettyPrint(root);
     
     return { root, insert }
@@ -87,4 +103,4 @@ function Tree(array) {
 let arr1 = [1, 2, 3, 4, 5];
 let test = Tree(arr1);
 // console.log(buildTree(arr1));
-console.log(test);
+console.log(test.insert(6));
