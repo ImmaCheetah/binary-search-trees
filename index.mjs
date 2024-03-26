@@ -46,7 +46,7 @@ function Tree(array) {
     }
 
     
-    const insert = (value) => {
+    const insert = (value, currentNode = root) => {
 
         if (currentNode.left == null || currentNode.right == null) {
             if (value < currentNode.data) {
@@ -59,10 +59,10 @@ function Tree(array) {
 
         if (value < currentNode.data) {
             currentNode = currentNode.left;
-            insert(value)
+            insert(value, currentNode)
         } else {
             currentNode = currentNode.right;
-            insert(value)
+            insert(value, currentNode)
         } 
 
     }
@@ -78,7 +78,7 @@ function Tree(array) {
     */
     
     let root = buildTree(sortedArray);
-    let currentNode = root;
+    // let currentNode = root;
     
     return { root, insert, displayTree }
 }
