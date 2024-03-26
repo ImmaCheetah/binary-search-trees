@@ -17,8 +17,7 @@ function Tree(array) {
 
     
     const buildTree = (array, start = 0, end = array.length - 1) => {
-        // start = 0;
-        // end = array.length;
+
         let mid = Math.floor((start + end) / 2);
     
         if (start > end) {
@@ -29,12 +28,6 @@ function Tree(array) {
 
         node.left = buildTree(array, start, mid - 1);
         node.right = buildTree(array, mid + 1, end)
-        // create a Node object with mid point as data
-    
-        // call buildTree on left side
-        // - (start, mid)
-        // call buildTree on right side
-        // - (mid + 1, end)
         
         return node;
     }
@@ -50,13 +43,40 @@ function Tree(array) {
         if (node.left !== null) {
           prettyPrint(node.left, `${prefix}${isLeft ? "    " : "│   "}`, true);
         }
-      };
+    }
+
+    const insert = (value) => {
+        let currentNode = root;
+
+        while (currentNode.left != null || currentNode.right != null) {
+            if (value < currentNode.data) {
+                currentNode = currentNode.left;
+            } else {
+                currentNode = currentNode.right;
+            }
+        }
+
+        if (value < currentNode.data) {
+            currentNode.left = Node(value);
+        } else {
+            currentNode.right = Node(value);
+        }
+        
+
+        prettyPrint(root);
+
+    }
+    /*
+    Check the value to be inserted (say X) with the value of the current node (say val) we are in:
+        If X is less than val move to the left subtree.
+        Otherwise, move to the right subtree.
+    Once the leaf node is reached, insert X to its right or left based on the relation between X and the leaf node’s value. */
     
     let root = buildTree(sortedArray);
 
     prettyPrint(root);
     
-    return { root, prettyPrint }
+    return { root, insert }
 }
 
 
@@ -68,11 +88,3 @@ let arr1 = [1, 2, 3, 4, 5];
 let test = Tree(arr1);
 // console.log(buildTree(arr1));
 console.log(test);
-
-/* BST algorithm
-- define start index as 0, end as length of array - 1
-- create a midpoint by (start+end) / 2
-- make a Tree node
-
-
-*/
