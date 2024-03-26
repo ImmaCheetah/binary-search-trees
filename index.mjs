@@ -49,7 +49,11 @@ function Tree(array) {
     const insert = (value) => {
 
         if (currentNode.left == null || currentNode.right == null) {
-            currentNode = Node(value);
+            if (value < currentNode.data) {
+                currentNode.left = Node(value);
+            } else {
+                currentNode.right = Node(value);
+            }
             return currentNode
         }
 
@@ -61,38 +65,22 @@ function Tree(array) {
             insert(value)
         } 
 
-        // while (currentNode.left != null || currentNode.right != null) {
-        //     if(currentNode.right === null){
-        //         break;
-        //     }
+    }
 
-        //     if (value < currentNode.data) {
-        //         currentNode = currentNode.left;
-        //     } else {
-        //         currentNode = currentNode.right;
-        //     }
-        // }
-
-        // if (value < currentNode.data) {
-        //     currentNode.left = Node(value);
-        // } else {
-        //     currentNode.right = Node(value);
-        // }
-        
+    const displayTree = () => {
         prettyPrint(root);
-
     }
     /*
     Check the value to be inserted (say X) with the value of the current node (say val) we are in:
         If X is less than val move to the left subtree.
         Otherwise, move to the right subtree.
-    Once the leaf node is reached, insert X to its right or left based on the relation between X and the leaf node’s value. */
+    Once the leaf node is reached, insert X to its right or left based on the relation between X and the leaf node’s value. 
+    */
     
     let root = buildTree(sortedArray);
     let currentNode = root;
-    prettyPrint(root);
     
-    return { root, insert }
+    return { root, insert, displayTree }
 }
 
 
@@ -103,4 +91,6 @@ function Tree(array) {
 let arr1 = [1, 2, 3, 4, 5];
 let test = Tree(arr1);
 // console.log(buildTree(arr1));
+console.log(test.insert(2.5));
 console.log(test.insert(6));
+console.log(test.displayTree());
