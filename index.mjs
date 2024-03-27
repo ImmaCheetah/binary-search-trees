@@ -67,6 +67,23 @@ function Tree(array) {
 
     }
 
+    const deleteItem = (value, currentNode = root) => {
+        if (currentNode.left == null && currentNode.right == null) {
+            if (value === currentNode.data) {
+                currentNode = null;
+            } 
+            return currentNode
+        }
+
+        if (value < currentNode.data) {
+            currentNode = currentNode.left;
+            deleteItem(value, currentNode)
+        } else {
+            currentNode = currentNode.right;
+            deleteItem(value, currentNode)
+        } 
+    }
+
     const displayTree = () => {
         prettyPrint(root);
     }
@@ -80,7 +97,7 @@ function Tree(array) {
     let root = buildTree(sortedArray);
     // let currentNode = root;
     
-    return { root, insert, displayTree }
+    return { root, insert, displayTree, deleteItem }
 }
 
 
@@ -91,6 +108,13 @@ function Tree(array) {
 let arr1 = [1, 2, 3, 4, 5];
 let test = Tree(arr1);
 // console.log(buildTree(arr1));
-console.log(test.insert(2.5));
-console.log(test.insert(6));
+// test.insert(2.5);
+// test.insert(6);
+// test.insert(4.5);
+// test.insert(3.3);
+// test.insert(8);
+test.deleteItem(4);
+test.deleteItem(4);
+test.deleteItem(1);
+console.log(test.root.right);
 console.log(test.displayTree());
