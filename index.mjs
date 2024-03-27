@@ -68,19 +68,47 @@ function Tree(array) {
     }
 
     const deleteItem = (value, currentNode = root) => {
-        if (currentNode.left == null && currentNode.right == null) {
-            if (value === currentNode.data) {
-                currentNode = null;
-            } 
-            return currentNode
+        // if (currentNode.left == null && currentNode.right == null) {
+        //     if (value === currentNode.data) {
+        //         currentNode = null;
+        //     } 
+        //     return currentNode
+        // }
+
+        if (currentNode == null) {
+            return null;
         }
 
-        if (value < currentNode.data) {
+        if (value === currentNode.data) {
+            currentNode = null;
+            return currentNode;
+        } else if (value < currentNode.data) {
             currentNode = currentNode.left;
             deleteItem(value, currentNode)
         } else {
             currentNode = currentNode.right;
             deleteItem(value, currentNode)
+        } 
+    }
+
+    const find = (value, currentNode = root) => {
+        if (currentNode == null) {
+            return currentNode;
+        }
+
+        if (currentNode.data === value) {
+            return currentNode;
+        }
+        
+        if (value === currentNode.data) {
+            // currentNode = null;
+            return currentNode;
+        } else if (value < currentNode.data) {
+            currentNode = currentNode.left;
+            find(value, currentNode)
+        } else {
+            currentNode = currentNode.right;
+            find(value, currentNode)
         } 
     }
 
@@ -97,7 +125,7 @@ function Tree(array) {
     let root = buildTree(sortedArray);
     // let currentNode = root;
     
-    return { root, insert, displayTree, deleteItem }
+    return { root, insert, displayTree, deleteItem, find }
 }
 
 
@@ -113,8 +141,6 @@ let test = Tree(arr1);
 // test.insert(4.5);
 // test.insert(3.3);
 // test.insert(8);
-test.deleteItem(4);
-test.deleteItem(4);
-test.deleteItem(1);
-console.log(test.root.right);
-console.log(test.displayTree());
+console.log(test.find(4));
+// console.log(test.root.right);
+test.displayTree();
