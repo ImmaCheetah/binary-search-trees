@@ -58,10 +58,8 @@ function Tree(array) {
         }
 
         if (value < currentNode.data) {
-            // currentNode = currentNode.left;
             insert(value, currentNode.left)
         } else {
-            // currentNode = currentNode.right;
             insert(value, currentNode.right)
         } 
 
@@ -104,6 +102,25 @@ function Tree(array) {
                 }
             }
 
+            // Case 3
+            // Find node to delete
+            // Check for two children
+            // Find biggest value by checking left most node in the right subtree of target node recursively
+            // Set value of target node to value of left most node in subtree
+            // If left most node has right node, point previous node to right node
+
+            if (currentNode.left != null && currentNode.right != null) {
+                let tempNode = currentNode.right;
+                while (tempNode.left != null) {
+                    tempNode = tempNode.left;
+                }
+                currentNode.data = tempNode.data;
+
+                
+                // let leftestNode = deleteItem(value, currentNode.left, parentNode)
+                // console.log(leftestNode);
+            }
+
         } else if (value < currentNode.data) {
             parentNode = currentNode;
             currentNode = currentNode.left;
@@ -116,17 +133,14 @@ function Tree(array) {
     
     }
 
+
+
     const find = (value, currentNode = root) => {
         if (currentNode == null) {
             return currentNode;
         }
 
         if (currentNode.data === value) {
-            return currentNode;
-        }
-        
-        if (value === currentNode.data) {
-            // currentNode = null;
             return currentNode;
         } else if (value < currentNode.data) {
             currentNode = currentNode.left;
@@ -150,15 +164,12 @@ function Tree(array) {
 
 
 
-let arr1 = [2, 4, 3, 6, 8, 1, 4, 3, 5, 4, 2, 6]; 
-// let arr1 = [1, 2, 3, 4, 5];
+// let arr1 = [2, 4, 3, 6, 8, 1, 4, 3, 5, 4, 2, 6, 11, 20, 30, 40]; 
+let arr1 = [1, 2, 3, 4, 5];
 let test = Tree(arr1);
-// console.log(buildTree(arr1));
-test.insert(2.5);
-// test.insert(6);
-test.insert(4.5);
-// test.insert(3.3);
+
 test.insert(1.5);
-test.deleteItem(6);
-// console.log(test.root.right);
+// console.log(test.root.left);
+// test.deleteItem(4);
+// console.log(test.find(3));
 test.displayTree();
