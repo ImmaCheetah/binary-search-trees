@@ -102,7 +102,31 @@ function Tree(array) {
             currentNode = currentNode.right;
             deleteItem(value, currentNode, parentNode)
         } 
- 
+        // if (value < currentNode.data) {
+        //     currentNode.left = deleteItem(value, currentNode.left)
+        // } else {
+        //     currentNode.right = deleteItem(value, currentNode.right)
+        // }
+        // Case 1 - no children
+        // if (currentNode.left === null && currentNode.right === null) {
+        //     if (value === currentNode.data) {
+        //         if (value === parentNode.right.data) {
+        //             parentNode.right = null;
+        //             return currentNode;
+        //         } else {
+        //             parentNode.left = null;
+        //             return currentNode;
+        //         }
+        //     }
+        // }
+
+        // Case 2 - 1 child
+        // if (currentNode.left != null || currentNode.right != null) {
+        //     if (value === currentNode.data) {
+        //         parentNode.right = currentNode.right;
+        //         return currentNode;
+        //     }
+        // }
     
     }
     
