@@ -58,38 +58,54 @@ function Tree(array) {
         }
 
         if (value < currentNode.data) {
-            currentNode = currentNode.left;
-            insert(value, currentNode)
+            // currentNode = currentNode.left;
+            insert(value, currentNode.left)
         } else {
-            currentNode = currentNode.right;
-            insert(value, currentNode)
+            // currentNode = currentNode.right;
+            insert(value, currentNode.right)
         } 
 
     }
 
-    const deleteItem = (value, currentNode = root) => {
-        // if (currentNode.left == null && currentNode.right == null) {
-        //     if (value === currentNode.data) {
-        //         currentNode = null;
-        //     } 
-        //     return currentNode
-        // }
-
+    const deleteItem = (value, currentNode = root, parentNode) => {
+        
         if (currentNode == null) {
-            return null;
-        }
-
-        if (value === currentNode.data) {
-            currentNode = null;
             return currentNode;
-        } else if (value < currentNode.data) {
-            currentNode = currentNode.left;
-            deleteItem(value, currentNode)
-        } else {
+        }
+        // Case 1 - no children
+        if (currentNode.left === null && currentNode.right === null) {
+            if (value === currentNode.data) {
+                if (value === parentNode.right.data) {
+                    parentNode.right = null;
+                    return currentNode;
+                } else {
+                    parentNode.left = null;
+                    return currentNode;
+                }
+            }
+        }
+        // Case 2 - 1 child
+        if (currentNode.left === null) {
             currentNode = currentNode.right;
-            deleteItem(value, currentNode)
+            parentNode.right = currentNode;  
+        } else if (currentNode.right === null) {
+            currentNode = currentNode.left;
+            parentNode.left = currentNode;
+        }
+        // Traversal
+        if (value < currentNode.data) {
+            parentNode = currentNode;
+            currentNode = currentNode.left;
+            deleteItem(value, currentNode, parentNode)
+        } else {
+            parentNode = currentNode;
+            currentNode = currentNode.right;
+            deleteItem(value, currentNode, parentNode)
         } 
+ 
+    
     }
+    
 
     const find = (value, currentNode = root) => {
         if (currentNode == null) {
@@ -132,15 +148,15 @@ function Tree(array) {
 
 
 
-// let arr1 = [2, 4, 3, 6, 8, 1, 4, 0, 3, 5, 4, 2, 6]; 
-let arr1 = [1, 2, 3, 4, 5];
+let arr1 = [2, 4, 3, 6, 8, 1, 4, 3, 5, 4, 2, 6]; 
+// let arr1 = [1, 2, 3, 4, 5];
 let test = Tree(arr1);
 // console.log(buildTree(arr1));
-// test.insert(2.5);
+test.insert(2.5);
 // test.insert(6);
-// test.insert(4.5);
-// test.insert(3.3);
-// test.insert(8);
-console.log(test.find(4));
+test.insert(4.5);
+test.insert(3.3);
+test.insert(1.5);
+test.deleteItem(5);
 // console.log(test.root.right);
 test.displayTree();
