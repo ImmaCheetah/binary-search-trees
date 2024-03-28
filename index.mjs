@@ -72,9 +72,10 @@ function Tree(array) {
         if (currentNode == null) {
             return currentNode;
         }
-        // Case 1 - no children
-        if (currentNode.left === null && currentNode.right === null) {
-            if (value === currentNode.data) {
+
+        if (value === currentNode.data) {
+            // Case 1
+            if (currentNode.left === null && currentNode.right === null) {
                 if (value === parentNode.right.data) {
                     parentNode.right = null;
                     return currentNode;
@@ -83,17 +84,27 @@ function Tree(array) {
                     return currentNode;
                 }
             }
-        }
-        // Case 2 - 1 child
-        if (currentNode.left === null) {
-            currentNode = currentNode.right;
-            parentNode.right = currentNode;  
-        } else if (currentNode.right === null) {
-            currentNode = currentNode.left;
-            parentNode.left = currentNode;
-        }
-        // Traversal
-        if (value < currentNode.data) {
+
+            // Case 2
+            if (currentNode.left === null) {
+                if (value === parentNode.right.data) {
+                    parentNode.right = currentNode.right;
+                    return currentNode;
+                } else {
+                    parentNode.left = currentNode.right;
+                    return currentNode;
+                }
+            } else if (currentNode.right === null) {
+                if (value === parentNode.right.data) {
+                    parentNode.right = currentNode.left;
+                    return currentNode;
+                } else {
+                    parentNode.left = currentNode.left;
+                    return currentNode;
+                }
+            }
+
+        } else if (value < currentNode.data) {
             parentNode = currentNode;
             currentNode = currentNode.left;
             deleteItem(value, currentNode, parentNode)
@@ -101,35 +112,9 @@ function Tree(array) {
             parentNode = currentNode;
             currentNode = currentNode.right;
             deleteItem(value, currentNode, parentNode)
-        } 
-        // if (value < currentNode.data) {
-        //     currentNode.left = deleteItem(value, currentNode.left)
-        // } else {
-        //     currentNode.right = deleteItem(value, currentNode.right)
-        // }
-        // Case 1 - no children
-        // if (currentNode.left === null && currentNode.right === null) {
-        //     if (value === currentNode.data) {
-        //         if (value === parentNode.right.data) {
-        //             parentNode.right = null;
-        //             return currentNode;
-        //         } else {
-        //             parentNode.left = null;
-        //             return currentNode;
-        //         }
-        //     }
-        // }
-
-        // Case 2 - 1 child
-        // if (currentNode.left != null || currentNode.right != null) {
-        //     if (value === currentNode.data) {
-        //         parentNode.right = currentNode.right;
-        //         return currentNode;
-        //     }
-        // }
+        }
     
     }
-    
 
     const find = (value, currentNode = root) => {
         if (currentNode == null) {
@@ -155,15 +140,8 @@ function Tree(array) {
     const displayTree = () => {
         prettyPrint(root);
     }
-    /*
-    Check the value to be inserted (say X) with the value of the current node (say val) we are in:
-        If X is less than val move to the left subtree.
-        Otherwise, move to the right subtree.
-    Once the leaf node is reached, insert X to its right or left based on the relation between X and the leaf node’s value. 
-    */
     
     let root = buildTree(sortedArray);
-    // let currentNode = root;
     
     return { root, insert, displayTree, deleteItem, find }
 }
@@ -179,8 +157,8 @@ let test = Tree(arr1);
 test.insert(2.5);
 // test.insert(6);
 test.insert(4.5);
-test.insert(3.3);
+// test.insert(3.3);
 test.insert(1.5);
-test.deleteItem(5);
+test.deleteItem(6);
 // console.log(test.root.right);
 test.displayTree();
