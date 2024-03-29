@@ -5,6 +5,7 @@ function Node(data, left = null, right = null) {
 }
 
 function Tree(array) {
+
     function sortArray(array) {
         return mergeSort(array).filter(removeDuplicates);
     }
@@ -17,12 +18,11 @@ function Tree(array) {
 
     
     const buildTree = (array, start = 0, end = array.length - 1) => {
-
-        let mid = Math.ceil((start + end) / 2);
-    
         if (start > end) {
             return null;
         }
+
+        let mid = Math.ceil((start + end) / 2);
         
         let node = Node(array[mid]);
 
@@ -48,7 +48,19 @@ function Tree(array) {
     
     const insert = (value, currentNode = root) => {
 
-        if (currentNode.left == null || currentNode.right == null) {
+        if (currentNode == null) {
+            currentNode = Node(value);
+            return Node(value);
+        }
+
+       
+        // if (currentNode.left == null) {
+        //     if (value < currentNode.left) {
+        //         currentNode.left = Node(value);
+        //     }
+        // }
+
+        if (currentNode.left == null && currentNode.right == null) {
             if (value < currentNode.data) {
                 currentNode.left = Node(value);
             } else {
