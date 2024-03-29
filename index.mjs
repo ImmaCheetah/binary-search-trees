@@ -60,13 +60,24 @@ function Tree(array) {
         //     }
         // }
 
-        if (currentNode.left == null && currentNode.right == null) {
+        // if (currentNode.left == null && currentNode.right == null) {
+        //     if (value < currentNode.data) {
+        //         currentNode.left = Node(value);
+        //     } else {
+        //         currentNode.right = Node(value);
+        //     }
+        //     return currentNode
+        // }
+
+        if (currentNode.left == null) {
             if (value < currentNode.data) {
                 currentNode.left = Node(value);
-            } else {
+            }
+        }
+        if (currentNode.right == null) {
+            if (value > currentNode.data) {
                 currentNode.right = Node(value);
             }
-            return currentNode
         }
 
         if (value < currentNode.data) {
@@ -86,13 +97,20 @@ function Tree(array) {
         if (value === currentNode.data) {
             // Case 1
             if (currentNode.left === null && currentNode.right === null) {
-                if (value === parentNode.right.data) {
-                    parentNode.right = null;
-                    return currentNode;
-                } else {
+                if (parentNode.right == null) {
                     parentNode.left = null;
                     return currentNode;
+                } else {
+                    parentNode.right = null;
+                    return currentNode;
                 }
+                // if (value === parentNode.right.data) {
+                //     parentNode.right = null;
+                //     return currentNode;
+                // } else {
+                //     parentNode.left = null;
+                //     return currentNode;
+                // }
             }
 
             // Case 2
@@ -180,8 +198,8 @@ function Tree(array) {
 let arr1 = [1, 2, 3, 4, 5];
 let test = Tree(arr1);
 
-test.insert(1.5);
+// test.insert(5.5);
 // console.log(test.root.left);
-// test.deleteItem(4);
+test.deleteItem(5);
 // console.log(test.find(3));
 test.displayTree();
