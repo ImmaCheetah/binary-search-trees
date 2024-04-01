@@ -135,12 +135,12 @@ function Tree(array) {
             if (currentNode.left != null && currentNode.right != null) {
                 // Set a temp variable to the right node of target to loop over as subtree
                 let tempNode = currentNode.right;
-                let tempParentNode = null;
+                let tempParentNode = currentNode;
 
                 // Loop over the left nodes of subtree
                 while (tempNode.left != null) {
-                    tempNode = tempNode.left;
                     tempParentNode = tempNode;
+                    tempNode = tempNode.left;
                 }
                 // Set target node value to left most node value
                 currentNode.data = tempNode.data;
@@ -148,12 +148,23 @@ function Tree(array) {
                 if (tempNode.left == null && tempNode.right == null) {
                     if (tempParentNode.right == null) {
                         tempParentNode.left = null;
-                        // return currentNode;
+
                     } else {
                         tempParentNode.right = null;
-                        // return currentNode;
+
                     }
                 }
+
+                if (tempNode.right != null) {
+                    if (tempNode.data < tempParentNode.data) {
+                        tempParentNode.left = tempNode.right;
+                    } else {
+
+                        tempParentNode.right = tempNode.right;
+                    }
+                }
+
+
 
 
                 // currentNode.right = tempNode.right;
@@ -200,10 +211,6 @@ function Tree(array) {
     return { root, insert, displayTree, deleteItem, find }
 }
 
-
-
-
-
 let arr1 = [2, 4, 3, 6, 8, 1, 4, 3, 5, 4, 2, 6, 11, 20, 30, 40]; 
 // let arr1 = [1, 2, 3, 4, 5];
 let test = Tree(arr1);
@@ -215,6 +222,6 @@ test.insert(5.5);
 test.insert(5.7);
 test.insert(5.9);
 // console.log(test.root.left);
-test.deleteItem(6);
+test.deleteItem(5);
 // console.log(test.find(3));
 test.displayTree();
