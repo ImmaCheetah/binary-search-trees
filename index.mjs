@@ -211,8 +211,41 @@ function Tree(array) {
         return resultArray;
     }
 
-    const inOrder = (node) => {
+    const inOrder = (currentNode = root, resultArray = []) => {
+        if (currentNode == null) {
+            return;
+        }
 
+        inOrder(currentNode.left, resultArray);
+        resultArray.push(currentNode.data);
+        inOrder(currentNode.right, resultArray);
+
+        return resultArray;
+
+    }
+
+    const preOrder = (currentNode = root, resultArray = []) => {
+        if (currentNode == null) {
+            return;
+        }
+
+        resultArray.push(currentNode.data);
+        preOrder(currentNode.left, resultArray);
+        preOrder(currentNode.right, resultArray);
+
+        return resultArray;
+    }
+
+    const postOrder = (currentNode = root, resultArray = []) => {
+        if (currentNode == null) {
+            return;
+        }
+
+        postOrder(currentNode.left, resultArray);
+        postOrder(currentNode.right, resultArray);
+        resultArray.push(currentNode.data);
+
+        return resultArray;
     }
 
     const height = (node) => {
@@ -225,7 +258,7 @@ function Tree(array) {
     
     let root = buildTree(sortedArray);
     
-    return { root, insert, displayTree, deleteItem, find, levelOrder, prettyPrint }
+    return { root, insert, displayTree, deleteItem, find, levelOrder, prettyPrint, inOrder, preOrder, postOrder }
 }
 
 let arr1 = [2, 4, 3, 6, 8, 1, 4, 3, 5, 4, 2, 6, 11, 20, 30, 40]; 
@@ -236,5 +269,6 @@ test.insert(4.5);
 test.insert(4.1);
 
 
-test.levelOrder(test.prettyPrint);
+// test.levelOrder(test.prettyPrint);
+console.log(test.postOrder());
 // test.displayTree();
