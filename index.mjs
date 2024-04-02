@@ -53,22 +53,6 @@ function Tree(array) {
             return Node(value);
         }
 
-       
-        // if (currentNode.left == null) {
-        //     if (value < currentNode.left) {
-        //         currentNode.left = Node(value);
-        //     }
-        // }
-
-        // if (currentNode.left == null && currentNode.right == null) {
-        //     if (value < currentNode.data) {
-        //         currentNode.left = Node(value);
-        //     } else {
-        //         currentNode.right = Node(value);
-        //     }
-        //     return currentNode
-        // }
-
         if (currentNode.left == null) {
             if (value < currentNode.data) {
                 currentNode.left = Node(value);
@@ -95,7 +79,7 @@ function Tree(array) {
         }
 
         if (value === currentNode.data) {
-            // Case 1
+            // Case 1 - no children
             if (currentNode.left === null && currentNode.right === null) {
                 if (parentNode.right == null) {
                     parentNode.left = null;
@@ -106,7 +90,7 @@ function Tree(array) {
                 }
             }
 
-            // Case 2
+            // Case 2 - one child
             if (currentNode.left === null) {
                 if (value === parentNode.right.data) {
                     parentNode.right = currentNode.right;
@@ -125,15 +109,10 @@ function Tree(array) {
                 }
             }
 
-            // Case 3
-            // Find node to delete
-            // Check for two children
-            // Find biggest value by checking left most node in the right subtree of target node
-            // Set value of target node to value of left most node in subtree
-            // If left most node has right node, point previous node to right node
-
+            // Case 3 - two children
             if (currentNode.left != null && currentNode.right != null) {
                 // Set a temp variable to the right node of target to loop over as subtree
+                // Keep track of parent to use to target when deleting
                 let tempNode = currentNode.right;
                 let tempParentNode = currentNode;
 
@@ -145,16 +124,19 @@ function Tree(array) {
                 // Set target node value to left most node value
                 currentNode.data = tempNode.data;
 
+                // Check if left-most node has no children 
+                // Check if parents right node is empty and set its left to null
                 if (tempNode.left == null && tempNode.right == null) {
                     if (tempParentNode.right == null) {
                         tempParentNode.left = null;
-
                     } else {
                         tempParentNode.right = null;
 
                     }
                 }
 
+                // Check if left most node has a child
+                // If the value is less than the parent value then target left side to change pointer
                 if (tempNode.right != null) {
                     if (tempNode.data < tempParentNode.data) {
                         tempParentNode.left = tempNode.right;
@@ -163,15 +145,9 @@ function Tree(array) {
                         tempParentNode.right = tempNode.right;
                     }
                 }
-
-
-
-
-                // currentNode.right = tempNode.right;
-
-                
             }
 
+        // Traverse the tree based on value while keeping track of parent
         } else if (value < currentNode.data) {
             parentNode = currentNode;
             currentNode = currentNode.left;
@@ -184,14 +160,13 @@ function Tree(array) {
     
     }
 
-
-
     const find = (value, currentNode = root) => {
         if (currentNode == null) {
             return currentNode;
         }
 
         if (currentNode.data === value) {
+            console.log(currentNode);
             return currentNode;
         } else if (value < currentNode.data) {
             currentNode = currentNode.left;
@@ -199,7 +174,49 @@ function Tree(array) {
         } else {
             currentNode = currentNode.right;
             find(value, currentNode)
-        } 
+        }
+
+    }
+
+    const levelOrder = (callback) => {
+
+        let currentNode = root;
+        let resultArray = [];
+        let queue = [];
+
+        if (typeof callback == 'function') {
+            callback(currentNode);
+        }
+
+        if (currentNode == null) {
+            return currentNode;
+        }
+        queue.push(currentNode);
+
+        while (queue.length != 0) {
+            let visitedNode = queue.shift();
+
+            // someFunction(visitedNode); callback?
+
+            if (visitedNode.left != null) {
+                queue.push(visitedNode.left);
+            }
+
+            if (visitedNode.right != null) {
+                queue.push(visitedNode.right);
+            }
+
+            resultArray.push(visitedNode.data);
+        }
+        return resultArray;
+    }
+
+    const inOrder = (node) => {
+
+    }
+
+    const height = (node) => {
+
     }
 
     const displayTree = () => {
@@ -208,7 +225,7 @@ function Tree(array) {
     
     let root = buildTree(sortedArray);
     
-    return { root, insert, displayTree, deleteItem, find }
+    return { root, insert, displayTree, deleteItem, find, levelOrder, prettyPrint }
 }
 
 let arr1 = [2, 4, 3, 6, 8, 1, 4, 3, 5, 4, 2, 6, 11, 20, 30, 40]; 
@@ -217,11 +234,7 @@ let test = Tree(arr1);
 
 test.insert(4.5);
 test.insert(4.1);
-test.insert(4.2);
-test.insert(5.5);
-test.insert(5.7);
-test.insert(5.9);
-// console.log(test.root.left);
-test.deleteItem(5);
-// console.log(test.find(3));
-test.displayTree();
+
+
+test.levelOrder(test.prettyPrint);
+// test.displayTree();
