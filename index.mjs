@@ -184,30 +184,44 @@ function Tree(array) {
         let resultArray = [];
         let queue = [];
 
-        if (typeof callback == 'function') {
-            callback(currentNode);
-        }
-
         if (currentNode == null) {
             return currentNode;
         }
+
         queue.push(currentNode);
 
-        while (queue.length != 0) {
-            let visitedNode = queue.shift();
+        if (typeof callback === 'function') {
+            while (queue.length != 0) {
+                let visitedNode = queue.shift();
 
-            // someFunction(visitedNode); callback?
-
-            if (visitedNode.left != null) {
-                queue.push(visitedNode.left);
+                callback(visitedNode);
+                
+                if (visitedNode.left != null) {
+                    queue.push(visitedNode.left);
+                }
+    
+                if (visitedNode.right != null) {
+                    queue.push(visitedNode.right);
+                }
+    
+                resultArray.push(visitedNode.data);
             }
-
-            if (visitedNode.right != null) {
-                queue.push(visitedNode.right);
+        } else {
+            while (queue.length != 0) {
+                let visitedNode = queue.shift();
+    
+                if (visitedNode.left != null) {
+                    queue.push(visitedNode.left);
+                }
+    
+                if (visitedNode.right != null) {
+                    queue.push(visitedNode.right);
+                }
+    
+                resultArray.push(visitedNode.data);
             }
-
-            resultArray.push(visitedNode.data);
         }
+
         return resultArray;
     }
 
@@ -248,6 +262,11 @@ function Tree(array) {
         return resultArray;
     }
 
+    const doubleValue = (node) => {
+        node.data *= 2;
+        return node;
+    }
+
     const height = (node) => {
 
     }
@@ -258,7 +277,7 @@ function Tree(array) {
     
     let root = buildTree(sortedArray);
     
-    return { root, insert, displayTree, deleteItem, find, levelOrder, prettyPrint, inOrder, preOrder, postOrder }
+    return { root, insert, displayTree, deleteItem, find, levelOrder, prettyPrint, inOrder, preOrder, postOrder, doubleValue }
 }
 
 let arr1 = [2, 4, 3, 6, 8, 1, 4, 3, 5, 4, 2, 6, 11, 20, 30, 40]; 
@@ -269,6 +288,6 @@ test.insert(4.5);
 test.insert(4.1);
 
 
-// test.levelOrder(test.prettyPrint);
-console.log(test.postOrder());
+console.log(test.levelOrder(test.doubleValue));
+// console.log(test.postOrder());
 // test.displayTree();
