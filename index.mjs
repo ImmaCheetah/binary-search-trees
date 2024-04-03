@@ -225,20 +225,27 @@ function Tree(array) {
         return resultArray;
     }
 
-    const inOrder = (currentNode = root, resultArray = []) => {
+    const inOrder = (callback, currentNode = root, resultArray = []) => {
         if (currentNode == null) {
             return;
         }
 
-        inOrder(currentNode.left, resultArray);
-        resultArray.push(currentNode.data);
-        inOrder(currentNode.right, resultArray);
+        if (typeof callback === 'function') {
+            callback(currentNode);
+            inOrder(callback, currentNode.left, resultArray);
+            resultArray.push(currentNode.data);
+            inOrder(callback, currentNode.right, resultArray);
+        } else {
+            inOrder(callback, currentNode.left, resultArray);
+            resultArray.push(currentNode.data);
+            inOrder(callback, currentNode.right, resultArray);
+        }
 
         return resultArray;
 
     }
 
-    const preOrder = (currentNode = root, resultArray = []) => {
+    const preOrder = (callback, currentNode = root, resultArray = []) => {
         if (currentNode == null) {
             return;
         }
@@ -288,6 +295,6 @@ test.insert(4.5);
 test.insert(4.1);
 
 
-console.log(test.levelOrder(test.doubleValue));
-// console.log(test.postOrder());
+// console.log(test.levelOrder(test.doubleValue));
+console.log(test.inOrder());
 // test.displayTree();
