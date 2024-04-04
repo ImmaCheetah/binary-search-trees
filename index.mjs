@@ -303,18 +303,27 @@ function Tree(array) {
         }
     }
     
-    const depth = (node, currentNode = root, counter = 0) => {
-        if (currentNode = null) {
-            return currentNode;
+    const depth = (node, currentNode = root, counter = -1) => {
+        if (currentNode == null) {
+            return null;
         }
-
+        
         if (currentNode == node) {
-            return counter;
+            return 0;
         }
+        
+        let left = depth(node, currentNode.left, counter);
+        let right = depth(node, currentNode.right, counter);
 
-        // let left = depth(node, currentNode.left, counter);
-        // let right = depth(node, currentNode.right, counter);
-
+        if (left == null && right == null) {
+            return null;
+        }
+        
+        if (left == 0) {
+            return left + 1;
+        } else {
+            return right + 1;
+        }
     }
 
     const isBalanced = (currentNode = root) => {
@@ -339,26 +348,51 @@ function Tree(array) {
         }
     }
 
+    const rebalance = (currentNode = root) => {
+        if (isBalanced(currentNode)) {
+            return true;
+        } else {
+            // let newArray = preOrder();
+            console.log(inOrder);
+            // root = buildTree(newArray);
+
+            // return root;
+        }
+
+
+        // check if tree is balanced
+        // use in order traversal to get new array
+        // build new tree using that array
+        // check if balanced
+
+
+    }
+
+
+
     const displayTree = () => {
         prettyPrint(root);
     }
     
     let root = buildTree(sortedArray);
+
     
-    return { root, insert, displayTree, deleteItem, find, levelOrder, inOrder, preOrder, postOrder, doubleValue, height, depth, isBalanced, subTreeIsBalanced }
+    
+    return { root, insert, displayTree, deleteItem, find, levelOrder, inOrder, preOrder, postOrder, doubleValue, height, depth, isBalanced, subTreeIsBalanced, rebalance }
 }
 
 let arr1 = [2, 4, 3, 6, 8, 1, 4, 3, 5, 4, 2, 6, 11, 20, 30, 40]; 
-// let arr1 = [1, 2, 3, 4, 5];
+// let arr1 = [8];
 let test = Tree(arr1);
-test.insert(35);
-test.insert(1.5);
+// test.insert(8.5);
+// test.insert(7.5);
 // test.insert(1.6);
 // test.insert(37);
-test.insert(2.5);
+// test.insert(2.5);
 
-// console.log(test.levelOrder(test.doubleValue));
-// console.log(test.height());
+// console.log(test.inOrder());
 // console.log(test.subTreeIsBalanced(test.root.left))
-console.log(test.isBalanced());
+// console.log(test.isBalanced());
+// test.rebalance();
 test.displayTree();
+console.log("The depth is: ", test.depth(test.root.left.left.left));
