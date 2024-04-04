@@ -303,7 +303,41 @@ function Tree(array) {
         }
     }
     
-    
+    const depth = (node, currentNode = root, counter = 0) => {
+        if (currentNode = null) {
+            return currentNode;
+        }
+
+        if (currentNode == node) {
+            return counter;
+        }
+
+        // let left = depth(node, currentNode.left, counter);
+        // let right = depth(node, currentNode.right, counter);
+
+    }
+
+    const isBalanced = (currentNode = root) => {
+        if (root = null) {
+            return true;
+        }
+
+        if (subTreeIsBalanced(currentNode.left) && subTreeIsBalanced(currentNode.right)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    const subTreeIsBalanced = (node) => {
+        if (height(node.left) - height(node.right) <= 1) {
+            if (height(node.right) - height(node.left) <= 1) {
+                return true;
+            }
+        } else {
+            return false;
+        }
+    }
 
     const displayTree = () => {
         prettyPrint(root);
@@ -311,7 +345,7 @@ function Tree(array) {
     
     let root = buildTree(sortedArray);
     
-    return { root, insert, displayTree, deleteItem, find, levelOrder, inOrder, preOrder, postOrder, doubleValue, height }
+    return { root, insert, displayTree, deleteItem, find, levelOrder, inOrder, preOrder, postOrder, doubleValue, height, depth, isBalanced, subTreeIsBalanced }
 }
 
 let arr1 = [2, 4, 3, 6, 8, 1, 4, 3, 5, 4, 2, 6, 11, 20, 30, 40]; 
@@ -319,7 +353,12 @@ let arr1 = [2, 4, 3, 6, 8, 1, 4, 3, 5, 4, 2, 6, 11, 20, 30, 40];
 let test = Tree(arr1);
 test.insert(35);
 test.insert(1.5);
+// test.insert(1.6);
+// test.insert(37);
+test.insert(2.5);
 
 // console.log(test.levelOrder(test.doubleValue));
-console.log(test.height(test.root));
+// console.log(test.height());
+// console.log(test.subTreeIsBalanced(test.root.left))
+console.log(test.isBalanced());
 test.displayTree();
