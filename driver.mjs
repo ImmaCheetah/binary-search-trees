@@ -15,5 +15,5 @@ function generateArray() {
 let tree = Tree(generateArray());
 // let tree = Tree([1, 2, 3, 4]);
 // tree.displayTree();
-console.log(tree.isBalanced());
 console.log(tree.inOrder());
+console.log(tree.isBalanced());

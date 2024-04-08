@@ -329,7 +329,7 @@ function Tree(array) {
     }
 
     const isBalanced = (currentNode = root) => {
-        if (root = null) {
+        if (root == null) {
             return true;
         }
 
