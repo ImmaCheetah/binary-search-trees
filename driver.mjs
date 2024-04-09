@@ -13,7 +13,23 @@ function generateArray() {
 }
 
 let tree = Tree(generateArray());
-// let tree = Tree([1, 2, 3, 4]);
-// tree.displayTree();
-console.log(tree.inOrder());
+
 console.log(tree.isBalanced());
+console.log(tree.inOrder());
+console.log(tree.preOrder());
+console.log(tree.postOrder());
+console.log(tree.levelOrder());
+tree.insert(110);
+tree.insert(120);
+tree.insert(130);
+tree.insert(150);
+tree.insert(200);
+tree.insert(180);
+console.log(tree.isBalanced());
+tree.rebalance();
+console.log(tree.isBalanced());
+console.log(tree.inOrder());
+console.log(tree.preOrder());
+console.log(tree.postOrder());
+console.log(tree.levelOrder());
+tree.displayTree();

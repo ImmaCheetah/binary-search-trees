@@ -1,11 +1,13 @@
 import mergeSort from "./merge-sort.mjs";
 
+// Node factory
 function Node(data, left = null, right = null) {
     return {data, left, right}
 }
 
+// Tree factory
 function Tree(array) {
-
+    // Sorts array to be in order using mergeSort file then removes duplicate values
     function sortArray(array) {
         return mergeSort(array).filter(removeDuplicates);
     }
@@ -13,10 +15,10 @@ function Tree(array) {
     function removeDuplicates(element, index, array) {
         return array.indexOf(element) === index;
     }
-
+    // Array that will be used to build tree after sorting
     let sortedArray = sortArray(array);
 
-    
+    // Uses recursion to build binary tree
     const buildTree = (array, start = 0, end = array.length - 1) => {
         if (start > end) {
             return null;
@@ -32,6 +34,7 @@ function Tree(array) {
         return node;
     }
 
+    // Custom function that visualizes teh binary tree
     const prettyPrint = (node, prefix = "", isLeft = true) => {
         if (node === null) {
           return;
@@ -45,41 +48,42 @@ function Tree(array) {
         }
     }
 
-    
+    // Inserts value in bst
     const insert = (value, currentNode = root) => {
-
+        // Check if tree is empty and make it a Node
         if (currentNode == null) {
             currentNode = Node(value);
             return Node(value);
         }
-
+        // Check if left side is empty and less than value, then add Node
         if (currentNode.left == null) {
             if (value < currentNode.data) {
                 currentNode.left = Node(value);
             }
         }
+        // Check if right side is empty and more than value, then add Node
         if (currentNode.right == null) {
             if (value > currentNode.data) {
                 currentNode.right = Node(value);
             }
         }
-
+        // Check if value of node being inserted is less than current node value then recursively call function
         if (value < currentNode.data) {
             insert(value, currentNode.left)
         } else {
             insert(value, currentNode.right)
         } 
-
     }
-
+    // Deletes node from tree
     const deleteItem = (value, currentNode = root, parentNode) => {
-        
+        // Base case 
         if (currentNode == null) {
             return currentNode;
         }
-
+        // If there is a match with value go to 3 cases
         if (value === currentNode.data) {
             // Case 1 - no children
+            // If there are no children nodes then check which side is empty through the parent and make opposite null
             if (currentNode.left === null && currentNode.right === null) {
                 if (parentNode.right == null) {
                     parentNode.left = null;
@@ -91,6 +95,9 @@ function Tree(array) {
             }
 
             // Case 2 - one child
+            // Check if one side is empty
+            // Check through parent if the value matches the data of current node
+            // If it does set parent node to the next node to remove middle node
             if (currentNode.left === null) {
                 if (value === parentNode.right.data) {
                     parentNode.right = currentNode.right;
@@ -134,7 +141,6 @@ function Tree(array) {
 
                     }
                 }
-
                 // Check if left most node has a child
                 // If the value is less than the parent value then target left side to change pointer
                 if (tempNode.right != null) {
@@ -159,7 +165,7 @@ function Tree(array) {
         }
     
     }
-
+    // Finds a value in tree using recursion
     const find = (value, currentNode = root) => {
         if (currentNode == null) {
             return currentNode;
@@ -177,9 +183,9 @@ function Tree(array) {
         }
 
     }
-
+    // Prints tree values in level order
     const levelOrder = (callback) => {
-
+        // Declare variables
         let currentNode = root;
         let resultArray = [];
         let queue = [];
@@ -187,9 +193,12 @@ function Tree(array) {
         if (currentNode == null) {
             return currentNode;
         }
-
+        // Push first node into queue so it's not empty
         queue.push(currentNode);
-
+        // If there is a callback provided use callback on each node
+        // Else add each visited nodes children to queue 
+        // Add first index to result array
+        // Then take first index and recursively do the same
         if (typeof callback === 'function') {
             while (queue.length != 0) {
                 let visitedNode = queue.shift();
@@ -221,10 +230,9 @@ function Tree(array) {
                 resultArray.push(visitedNode.data);
             }
         }
-
         return resultArray;
     }
-
+    // Prints values in order using recursion
     const inOrder = (callback, currentNode = root, resultArray = []) => {
         if (currentNode == null) {
             return;
@@ -240,11 +248,9 @@ function Tree(array) {
             resultArray.push(currentNode.data);
             inOrder(callback, currentNode.right, resultArray);
         }
-
         return resultArray;
-
     }
-
+    // Prints values in pre order using recursion
     const preOrder = (callback, currentNode = root, resultArray = []) => {
         if (currentNode == null) {
             return;
@@ -260,10 +266,9 @@ function Tree(array) {
             preOrder(callback, currentNode.left, resultArray);
             preOrder(callback, currentNode.right, resultArray);
         }
-
         return resultArray;
     }
-
+    // Prints values in post order using recursion
     const postOrder = (callback, currentNode = root, resultArray = []) => {
         if (currentNode == null) {
             return;
@@ -279,16 +284,16 @@ function Tree(array) {
             postOrder(callback, currentNode.right, resultArray);
             resultArray.push(currentNode.data);
         }
-
         return resultArray;
     }
-
+    // A function that doubles the node data value, to be used as a callback
     const doubleValue = (node) => {
         node.data *= 2;
         return node;
     }
-
+    // Finds height of a node with recursion
     const height = (node = root, counter = -1) => {
+        // Base case
         if (node == null) {
             return -1;
         }
@@ -302,7 +307,7 @@ function Tree(array) {
             return right;
         }
     }
-    
+    // Checks depth of node from root
     const depth = (node, currentNode = root, counter = -1) => {
         if (currentNode == null) {
             return -1;
@@ -327,7 +332,7 @@ function Tree(array) {
             return;
         }
     }
-
+    // Check if tree is balanced by checking sub trees
     const isBalanced = (currentNode = root) => {
         if (root == null) {
             return true;
@@ -339,7 +344,7 @@ function Tree(array) {
             return false;
         }
     }
-
+    // Check if a node tree is balanced using height
     const subTreeIsBalanced = (node) => {
         if (height(node.left) - height(node.right) <= 1) {
             if (height(node.right) - height(node.left) <= 1) {
@@ -349,24 +354,19 @@ function Tree(array) {
             return false;
         }
     }
-
+    // Create a new tree after checking if its balanced
     const rebalance = (currentNode = root) => {
-        // if (isBalanced(currentNode)) {
-        //     return true;
-        // } else {
-        //     let newArray = inOrder(root);
-        //     console.log(newArray);
-        //     root = buildTree(newArray);
+        if (isBalanced(currentNode)) {
+            return true;
+        } else {
+            let newArray = inOrder(root);
+            // console.log(newArray);
+            root = buildTree(newArray);
         
-        //     return root;
-        // }
-
-        // check if tree is balanced
-        // use in order traversal to get new array
-        // build new tree using that array
-        // check if balanced
+            return root;
+        }
     }
-
+    // Function to display tree using prettyPrint
     const displayTree = () => {
         prettyPrint(root);
     }
@@ -376,18 +376,5 @@ function Tree(array) {
     return { root, insert, displayTree, deleteItem, find, levelOrder, inOrder, preOrder, postOrder, doubleValue, height, depth, isBalanced, subTreeIsBalanced, rebalance }
 }
 
-
 export { Node, Tree }
-// let arr1 = [2, 4, 3, 6, 8, 1, 4, 3, 5, 4, 2, 6, 11, 20, 30, 40]; 
-// let arr1 = [8, 9, 10];
-// let test = Tree(arr1);
-// test.insert(8.5);
-// test.insert(7);
-// test.insert(2);
-// test.insert(11);
-// test.insert(1);
-// test.insert(0);
 
-// console.log(test.inOrder());
-// test.displayTree();
-// console.log("The depth is: ", test.depth(test.root.right.left.left.right));
